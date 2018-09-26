@@ -1,12 +1,23 @@
+import { AsyncStorage } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { PrimeiraScreen, SegundaScreen } from './App';
+import Feed from './src/components/Feed';
+import Login from './src/screens/Login';
 
-Navigation.registerComponent('instalura.PrimeiraScreen', () => PrimeiraScreen);
-Navigation.registerComponent('instalura.SegundaScreen', () => SegundaScreen);
+Navigation.registerComponent('Login', () => Login);
+Navigation.registerComponent('Feed', () => Feed);
 
-Navigation.startSingleScreenApp({
-    screen: {
-        screen: 'instalura.PrimeiraScreen',
-        title: 'Tela Principal'
+AsyncStorage.getItem('token')
+.then(token => {
+    if(token){
+        return {
+            screen: 'Feed',
+            title: 'Instalura',
+        };
     }
-});
+
+    return {
+        screen: 'Login',
+        title: 'Login',
+    }
+})
+.then(screen => Navigation.startSingleScreenApp({screen}));
