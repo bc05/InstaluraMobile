@@ -13,23 +13,25 @@ export default class InstaluraFetchService {
             }
         })
         .then(requestInfo => fetch(uri, requestInfo))
-        .then(resposta => responsta.json());
+        .then(resposta => resposta.json());
 
         return jsonPromisse;
     }
 
-    static post(recurso){
+    static post(recurso, dados){
         const uri = 'http://instalura-api.herokuapp.com/api' + recurso;
         
-        AsyncStorage.getItem('token')
+        return AsyncStorage.getItem('token')
         .then(token => {
             return {
                 method: 'POST',
-                body: JSON.stringify({texto: valorComentario}),
-                headers: new Headers({"Content-type": "application/json", "X-AUTH-TOKEN": token})
+                body: JSON.stringify(dados),
+                headers: new Headers({
+                    "Content-type": "application/json",
+                    "X-AUTH-TOKEN": token})
             };
         })
-        .then(reuqestInfo => fetch(uri, requestInfo))
+        .then(requestInfo => fetch(uri, requestInfo))
         .then(resposta => resposta.json())
     }
 }
